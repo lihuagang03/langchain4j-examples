@@ -10,6 +10,7 @@ public class _01_ModelParameters {
 
         // OpenAI parameters are explained here: https://platform.openai.com/docs/api-reference/chat/create
 
+        // 聊天模型
         ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(GPT_4_O_MINI)
@@ -19,8 +20,10 @@ public class _01_ModelParameters {
                 .logResponses(true)
                 .build();
 
+        // 提示词，用户指令
         String prompt = "Explain in three lines how to make a beautiful painting";
 
+        // 聊天
         String response = model.chat(prompt);
 
         System.out.println(response);
