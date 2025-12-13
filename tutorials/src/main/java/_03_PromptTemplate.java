@@ -19,21 +19,26 @@ public class _03_PromptTemplate {
 
         public static void main(String[] args) {
 
+            // 聊天模型
             ChatModel model = OpenAiChatModel.builder()
                     .apiKey(ApiKeys.OPENAI_API_KEY)
                     .modelName(GPT_4_O_MINI)
                     .timeout(ofSeconds(60))
                     .build();
 
+            // 提示词模版
             String template = "Create a recipe for a {{dishType}} with the following ingredients: {{ingredients}}";
             PromptTemplate promptTemplate = PromptTemplate.from(template);
 
+            // 模版变量
             Map<String, Object> variables = new HashMap<>();
             variables.put("dishType", "oven dish");
             variables.put("ingredients", "potato, tomato, feta, olive oil");
 
+            // 模版应用提示词
             Prompt prompt = promptTemplate.apply(variables);
 
+            // 聊天
             String response = model.chat(prompt.text());
 
             System.out.println(response);
@@ -42,6 +47,7 @@ public class _03_PromptTemplate {
     }
 
     static class Structured_Prompt_Template_Example {
+        // 结构化的提示词
         @StructuredPrompt({
                 "Create a recipe of a {{dish}} that can be prepared using only {{ingredients}}.",
                 "Structure your answer in the following way:",
@@ -71,19 +77,23 @@ public class _03_PromptTemplate {
 
         public static void main(String[] args) {
 
+            // 聊天模型
             ChatModel model = OpenAiChatModel.builder()
                     .apiKey(ApiKeys.OPENAI_API_KEY)
                     .modelName(GPT_4_O_MINI)
                     .timeout(ofSeconds(60))
                     .build();
 
+            // 结构化对象
             Structured_Prompt_Template_Example.CreateRecipePrompt createRecipePrompt = new Structured_Prompt_Template_Example.CreateRecipePrompt(
                     "salad",
                     asList("cucumber", "tomato", "feta", "onion", "olives")
             );
 
+            // 结构化的提示词到提示词
             Prompt prompt = StructuredPromptProcessor.toPrompt(createRecipePrompt);
 
+            // 聊天
             String recipe = model.chat(prompt.text());
 
             System.out.println(recipe);
