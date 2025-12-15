@@ -32,6 +32,7 @@ import static shared.Utils.*;
 public class _01_Advanced_RAG_with_Query_Compression_Example {
 
     /**
+     * 请参考 Naive_RAG_Example 以获取基础上下文。
      * Please refer to {@link Naive_RAG_Example} for a basic context.
      * <p>
      * Advanced RAG in LangChain4j is described here: https://github.com/langchain4j/langchain4j/pull/538
