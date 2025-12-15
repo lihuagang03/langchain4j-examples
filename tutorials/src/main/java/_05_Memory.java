@@ -15,6 +15,9 @@ import java.util.concurrent.ExecutionException;
 import static dev.langchain4j.data.message.UserMessage.userMessage;
 import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 
+/**
+ * 聊天记忆
+ */
 public class _05_Memory {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
@@ -27,7 +30,8 @@ public class _05_Memory {
 
         // 聊天记忆
         // 词元窗口聊天记忆
-        ChatMemory chatMemory = TokenWindowChatMemory.withMaxTokens(1000, new OpenAiTokenCountEstimator(GPT_4_O_MINI));
+        ChatMemory chatMemory = TokenWindowChatMemory.withMaxTokens(1000,
+                new OpenAiTokenCountEstimator(GPT_4_O_MINI));
 
         // 系统消息
         SystemMessage systemMessage = SystemMessage.from(

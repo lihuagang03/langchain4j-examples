@@ -8,6 +8,9 @@ import java.util.concurrent.CompletableFuture;
 
 import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 
+/**
+ * 流式聊天
+ */
 public class _04_Streaming {
 
     public static void main(String[] args) {

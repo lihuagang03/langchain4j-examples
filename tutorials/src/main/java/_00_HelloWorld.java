@@ -3,6 +3,9 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
 
 import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 
+/**
+ * 你好，世界
+ */
 public class _00_HelloWorld {
 
     public static void main(String[] args) {

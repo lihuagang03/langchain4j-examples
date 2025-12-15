@@ -13,6 +13,9 @@ import java.util.concurrent.CompletableFuture;
 import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 import static java.time.Duration.ofSeconds;
 
+/**
+ * 少量示例
+ */
 public class _06_FewShot {
 
     public static void main(String[] args) {

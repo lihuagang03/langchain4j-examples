@@ -17,6 +17,9 @@ import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 import static java.time.Duration.ofSeconds;
 import static java.util.Arrays.asList;
 
+/**
+ * AI服务示例
+ */
 public class _08_AIServiceExamples {
 
     /**

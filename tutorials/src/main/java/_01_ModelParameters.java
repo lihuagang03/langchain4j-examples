@@ -4,6 +4,9 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
 import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 import static java.time.Duration.ofSeconds;
 
+/**
+ * 模型参数
+ */
 public class _01_ModelParameters {
 
     public static void main(String[] args) {
