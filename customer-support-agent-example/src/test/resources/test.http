@@ -1,15 +1,23 @@
+
+
 ### Getting booking details
+### 获取预订详情
 GET http://localhost:8080/customerSupportAgent?sessionId=1&userMessage=Hi, when does my booking begin?
 
 ### Getting booking details - providing missing customer info (1)
+### 获取预订详情 - 提供缺失的客户信息 (1)
 GET http://localhost:8080/customerSupportAgent?sessionId=1&userMessage=My booking number is MS-777.
 
 ### Getting booking details - providing missing customer info (2)
+### 获取预订详情 - 提供缺失的客户信息 (2)
 GET http://localhost:8080/customerSupportAgent?sessionId=1&userMessage=My name is John Doe.
 
 
 ### Cancelling booking
+### 取消预订
 GET http://localhost:8080/customerSupportAgent?sessionId=1&userMessage=Please cancel my booking.
 
 ### Cancelling booking - confirmation
+### 取消预订 - 确认
 GET http://localhost:8080/customerSupportAgent?sessionId=1&userMessage=Yes, cancel it.
+

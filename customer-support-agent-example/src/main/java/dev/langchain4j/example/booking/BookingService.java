@@ -42,7 +42,7 @@ public class BookingService {
      * 获取预订详情
      * @param bookingNumber 预订号
      * @param customerName 客户姓名
-     * @param customerSurname 客户姓
+     * @param customerSurname 客户姓氏
      * @return 机票预订信息
      */
     public Booking getBookingDetails(String bookingNumber, String customerName, String customerSurname) {
@@ -56,7 +56,7 @@ public class BookingService {
      * 取消预订
      * @param bookingNumber 预订号
      * @param customerName 客户姓名
-     * @param customerSurname 客户姓
+     * @param customerSurname 客户姓氏
      */
     public void cancelBooking(String bookingNumber, String customerName, String customerSurname) {
         this.ensureExists(bookingNumber, customerName, customerSurname);
