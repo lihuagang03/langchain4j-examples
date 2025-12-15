@@ -20,7 +20,7 @@ import static org.mapdb.Serializer.INTEGER;
 import static org.mapdb.Serializer.STRING;
 
 /**
- * 为每个用户提供持久内存的服务示例
+ * 为每个用户提供持久内存的AI服务示例
  */
 public class _09_ServiceWithPersistentMemoryForEachUserExample {
 
