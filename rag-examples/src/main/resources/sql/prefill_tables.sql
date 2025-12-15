@@ -1,3 +1,6 @@
+
+# 预填充的数据
+# 客户数据
 INSERT INTO customers (customer_id, first_name, last_name, email)
 VALUES (1, 'John', 'Doe', 'john.doe@example.com'),
        (2, 'Jane', 'Smith', 'jane.smith@example.com'),
@@ -5,6 +8,7 @@ VALUES (1, 'John', 'Doe', 'john.doe@example.com'),
        (4, 'Bob', 'Williams', 'bob.williams@example.com'),
        (5, 'Carol', 'Brown', 'carol.brown@example.com');
 
+# 产品数据
 INSERT INTO products (product_id, product_name, price)
 VALUES (10, 'Notebook', 12.99),
        (20, 'Pen', 1.50),
@@ -12,6 +16,7 @@ VALUES (10, 'Notebook', 12.99),
        (40, 'Backpack', 49.99),
        (50, 'Stapler', 7.99);
 
+# 订单数据
 INSERT INTO orders (order_id, customer_id, product_id, quantity, order_date)
 VALUES (100, 1, 10, 2, '2024-04-20'),
        (200, 2, 20, 5, '2024-04-21'),

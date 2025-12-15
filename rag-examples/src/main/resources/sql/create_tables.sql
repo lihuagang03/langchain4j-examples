@@ -1,3 +1,5 @@
+
+# 客户数据
 CREATE TABLE customers
 (
     customer_id INT PRIMARY KEY,
@@ -6,6 +8,7 @@ CREATE TABLE customers
     email       VARCHAR(100)
 );
 
+# 产品数据
 CREATE TABLE products
 (
     product_id   INT PRIMARY KEY,
@@ -13,6 +16,7 @@ CREATE TABLE products
     price        DECIMAL(10, 2)
 );
 
+# 订单数据
 CREATE TABLE orders
 (
     order_id    INT PRIMARY KEY,

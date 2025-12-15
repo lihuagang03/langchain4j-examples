@@ -17,8 +17,13 @@ public class Utils {
 
     public static final String OPENAI_API_KEY = getOrDefault(System.getenv("OPENAI_API_KEY"), "demo");
 
+    /**
+     * 与助手开始对话
+     * @param assistant 助手
+     */
     public static void startConversationWith(Assistant assistant) {
         Logger log = LoggerFactory.getLogger(Assistant.class);
+
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
                 log.info("==================================================");
@@ -30,6 +35,7 @@ public class Utils {
                     break;
                 }
 
+                // 智能体的问答
                 String agentAnswer = assistant.answer(userQuery);
                 log.info("==================================================");
                 log.info("Assistant: " + agentAnswer);
