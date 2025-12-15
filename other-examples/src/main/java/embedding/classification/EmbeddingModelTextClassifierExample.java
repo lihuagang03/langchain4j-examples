@@ -12,8 +12,19 @@ import java.util.Map;
 import static embedding.classification.EmbeddingModelTextClassifierExample.CustomerServiceCategory.*;
 import static java.util.Arrays.asList;
 
+/**
+ * 嵌入模型的文本分类示例
+ */
 public class EmbeddingModelTextClassifierExample {
 
+    /**
+     * 客户服务类别
+     * <pre>
+     * 账单与支付，技术支持，账户管理，
+     * 产品信息，订单状态，退货与换货，
+     * 反馈与投诉
+     * </pre>
+     */
     enum CustomerServiceCategory {
 
         BILLING_AND_PAYMENTS,
@@ -27,7 +38,9 @@ public class EmbeddingModelTextClassifierExample {
 
     public static void main(String[] args) {
 
+        // 类别到问题列表的映射表示例
         Map<CustomerServiceCategory, List<String>> examples = new HashMap<>();
+        // 账单与支付
         examples.put(BILLING_AND_PAYMENTS, asList(
                 "Can I pay using PayPal?",
                 "Do you accept Bitcoin?",
@@ -48,6 +61,7 @@ public class EmbeddingModelTextClassifierExample {
                 "I want to downgrade my subscription, how do I go about it?",
                 "Is there a penalty for downgrading my plan?"
         ));
+        // 技术支持
         examples.put(TECHNICAL_SUPPORT, asList(
                 "The app keeps crashing whenever I open it.",
                 "I can't save changes in the settings.",
@@ -68,6 +82,7 @@ public class EmbeddingModelTextClassifierExample {
                 "The app doesn't work on my Android phone.",
                 "Do you have a browser extension for Safari?"
         ));
+        // 账户管理
         examples.put(ACCOUNT_MANAGEMENT, asList(
                 "I forgot my password, how can I reset it?",
                 "I didn't receive a password reset email.",
@@ -88,6 +103,7 @@ public class EmbeddingModelTextClassifierExample {
                 "What happens to my data if I deactivate my account?",
                 "Can I reactivate my account later?"
         ));
+        // 产品信息
         examples.put(PRODUCT_INFORMATION, asList(
                 "What does the ‘Sync' feature do?",
                 "How does the privacy mode work?",
@@ -108,6 +124,7 @@ public class EmbeddingModelTextClassifierExample {
                 "How do I claim the warranty?",
                 "Is the warranty international?"
         ));
+        // 订单状态
         examples.put(ORDER_STATUS, asList(
                 "Where is my order right now?",
                 "Can you give me a tracking number?",
@@ -128,6 +145,7 @@ public class EmbeddingModelTextClassifierExample {
                 "Why did I receive only part of my order?",
                 "Is it possible to get the remaining items faster?"
         ));
+        // 退货与换货
         examples.put(RETURNS_AND_EXCHANGES, asList(
                 "What's your return policy?",
                 "Is the return shipping free?",
@@ -148,6 +166,7 @@ public class EmbeddingModelTextClassifierExample {
                 "Will I get a full refund?",
                 "How much will be deducted for restocking?"
         ));
+        // 反馈与投诉
         examples.put(FEEDBACK_AND_COMPLAINTS, asList(
                 "The material quality is not as advertised.",
                 "The product broke after a week of use.",
@@ -169,9 +188,13 @@ public class EmbeddingModelTextClassifierExample {
                 "I wish you had more colors to choose from."
         ));
 
+        // 嵌入模型
         EmbeddingModel embeddingModel = new AllMiniLmL6V2EmbeddingModel();
+        // 嵌入模型的文本分类器
         TextClassifier<CustomerServiceCategory> classifier = new EmbeddingModelTextClassifier<>(embeddingModel, examples);
 
+        // 对给定文本进行分类
+        // 嘿，我的包裹在哪里？
         List<CustomerServiceCategory> categories = classifier.classify("Yo where is my package?");
 
         System.out.println(categories); // [ORDER_STATUS]
