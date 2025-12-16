@@ -27,9 +27,13 @@ import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 import static dev.langchain4j.store.embedding.filter.MetadataFilterBuilder.metadataKey;
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * 具有元数据过滤的高级RAG示例
+ */
 class _05_Advanced_RAG_with_Metadata_Filtering_Examples {
 
     /**
+     * 请参考 Naive_RAG_Example 以获取基础上下文。
      * Please refer to {@link Naive_RAG_Example} for a basic context.
      * More information on metadata filtering can be found here: https://github.com/langchain4j/langchain4j/pull/610
      */
@@ -45,6 +49,7 @@ class _05_Advanced_RAG_with_Metadata_Filtering_Examples {
     void Static_Metadata_Filter_Example() {
 
         // given
+        // 元数据
         TextSegment dogsSegment = TextSegment.from("Article about dogs ...", metadata("animal", "dog"));
         TextSegment birdsSegment = TextSegment.from("Article about birds ...", metadata("animal", "bird"));
 
@@ -53,12 +58,14 @@ class _05_Advanced_RAG_with_Metadata_Filtering_Examples {
         embeddingStore.add(embeddingModel.embed(birdsSegment).content(), birdsSegment);
         // embeddingStore contains segments about both dogs and birds
 
+        // 只有狗
         Filter onlyDogs = metadataKey("animal").isEqualTo("dog");
 
         ContentRetriever contentRetriever = EmbeddingStoreContentRetriever.builder()
                 .embeddingStore(embeddingStore)
                 .embeddingModel(embeddingModel)
-                .filter(onlyDogs) // by specifying the static filter, we limit the search to segments only about dogs
+                // by specifying the static filter, we limit the search to segments only about dogs
+                .filter(onlyDogs) // 静态过滤器
                 .build();
 
         Assistant assistant = AiServices.builder(Assistant.class)
@@ -93,6 +100,7 @@ class _05_Advanced_RAG_with_Metadata_Filtering_Examples {
         embeddingStore.add(embeddingModel.embed(user2Info).content(), user2Info);
         // embeddingStore contains information about both first and second user
 
+        // 按用户ID筛选
         Function<Query, Filter> filterByUserId =
                 (query) -> metadataKey("userId").isEqualTo(query.metadata().chatMemoryId().toString());
 
@@ -100,7 +108,7 @@ class _05_Advanced_RAG_with_Metadata_Filtering_Examples {
                 .embeddingStore(embeddingStore)
                 .embeddingModel(embeddingModel)
                 // by specifying the dynamic filter, we limit the search to segments that belong only to the current user
-                .dynamicFilter(filterByUserId)
+                .dynamicFilter(filterByUserId) // 动态过滤器
                 .build();
 
         PersonalizedAssistant personalizedAssistant = AiServices.builder(PersonalizedAssistant.class)
