@@ -31,14 +31,19 @@ import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.load
 import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 import static shared.Utils.*;
 
+/**
+ * 多个检索器的高级RAG示例
+ */
 public class _07_Advanced_RAG_Multiple_Retrievers_Example {
 
 
     /**
+     * 请参考 Naive_RAG_Example 以获取基础上下文。
      * Please refer to {@link Naive_RAG_Example} for a basic context.
      * <p>
      * Advanced RAG in LangChain4j is described here: https://github.com/langchain4j/langchain4j/pull/538
      * <p>
+     * 此示例演示了如何使用多个内容检索器。
      * This example demonstrates how to use multiple content retrievers.
      */
 
@@ -53,6 +58,7 @@ public class _07_Advanced_RAG_Multiple_Retrievers_Example {
 
         EmbeddingModel embeddingModel = new BgeSmallEnV15QuantizedEmbeddingModel();
 
+        // 让我们创建第一个内容检索器。
         // Let's create our first content retriever.
         EmbeddingStore<TextSegment> embeddingStore1 =
                 embed(toPath("documents/miles-of-smiles-terms-of-use.txt"), embeddingModel);
@@ -63,6 +69,7 @@ public class _07_Advanced_RAG_Multiple_Retrievers_Example {
                 .minScore(0.6)
                 .build();
 
+        // 让我们创建第二个内容检索器。
         // Let's create our second content retriever.
         EmbeddingStore<TextSegment> embeddingStore2 =
                 embed(toPath("documents/biography-of-john-doe.txt"), embeddingModel);
@@ -73,21 +80,26 @@ public class _07_Advanced_RAG_Multiple_Retrievers_Example {
                 .minScore(0.6)
                 .build();
 
+        // 让我们创建一个查询路由器，将每个查询路由到两个检索器。
         // Let's create a query router that will route each query to both retrievers.
         QueryRouter queryRouter = new DefaultQueryRouter(contentRetriever1, contentRetriever2);
 
+        // 检索增强器
         RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
-                .queryRouter(queryRouter)
+                .queryRouter(queryRouter) // 查询路由器
                 .build();
 
+        // 聊天模型
         ChatModel model = OpenAiChatModel.builder()
                 .apiKey(OPENAI_API_KEY)
                 .modelName(GPT_4_O_MINI)
                 .build();
 
+        // 构建助手
+        // AI服务
         return AiServices.builder(Assistant.class)
                 .chatModel(model)
-                .retrievalAugmentor(retrievalAugmentor)
+                .retrievalAugmentor(retrievalAugmentor) // 检索增强器
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
     }
