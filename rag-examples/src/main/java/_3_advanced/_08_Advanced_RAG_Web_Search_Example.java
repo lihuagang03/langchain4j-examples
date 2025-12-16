@@ -34,16 +34,22 @@ import static dev.langchain4j.data.document.loader.FileSystemDocumentLoader.load
 import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 import static shared.Utils.*;
 
+/**
+ * 具有网络搜索的高级RAG示例
+ */
 public class _08_Advanced_RAG_Web_Search_Example {
 
 
     /**
+     * 请参考 Naive_RAG_Example 以获取基础上下文。
      * Please refer to {@link Naive_RAG_Example} for a basic context.
      * <p>
      * Advanced RAG in LangChain4j is described here: https://github.com/langchain4j/langchain4j/pull/538
      * <p>
+     * 这个例子演示了如何将网络搜索引擎作为额外的内容检索工具使用。
      * This example demonstrates how to use web search engine as an additional content retriever.
      * <p>
+     * 此示例需要 "langchain4j-web-search-engine-tavily" 依赖项。
      * This example requires "langchain4j-web-search-engine-tavily" dependency.
      */
 
@@ -69,31 +75,39 @@ public class _08_Advanced_RAG_Web_Search_Example {
                 .minScore(0.6)
                 .build();
 
+        // 让我们创建我们的网络搜索内容检索器。
         // Let's create our web search content retriever.
+        // 网络搜索引擎
         WebSearchEngine webSearchEngine = TavilyWebSearchEngine.builder()
                 .apiKey(System.getenv("TAVILY_API_KEY")) // get a free key: https://app.tavily.com/sign-in
                 .build();
 
+        // 内容检索器
         ContentRetriever webSearchContentRetriever = WebSearchContentRetriever.builder()
-                .webSearchEngine(webSearchEngine)
+                .webSearchEngine(webSearchEngine) // 网络搜索引擎
                 .maxResults(3)
                 .build();
 
+        // 让我们创建一个查询路由器，将每个查询路由到两个检索器。
         // Let's create a query router that will route each query to both retrievers.
         QueryRouter queryRouter = new DefaultQueryRouter(embeddingStoreContentRetriever, webSearchContentRetriever);
 
+        // 检索增强器
         RetrievalAugmentor retrievalAugmentor = DefaultRetrievalAugmentor.builder()
-                .queryRouter(queryRouter)
+                .queryRouter(queryRouter) // 查询路由器
                 .build();
 
+        // 聊天模型
         ChatModel model = OpenAiChatModel.builder()
                 .apiKey(OPENAI_API_KEY)
                 .modelName(GPT_4_O_MINI)
                 .build();
 
+        // 构建助手
+        // AI服务
         return AiServices.builder(Assistant.class)
                 .chatModel(model)
-                .retrievalAugmentor(retrievalAugmentor)
+                .retrievalAugmentor(retrievalAugmentor) // 检索增强器
                 .chatMemory(MessageWindowChatMemory.withMaxMessages(10))
                 .build();
     }
