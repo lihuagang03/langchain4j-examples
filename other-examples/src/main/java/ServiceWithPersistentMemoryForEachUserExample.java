@@ -19,28 +19,47 @@ import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 import static org.mapdb.Serializer.INTEGER;
 import static org.mapdb.Serializer.STRING;
 
+/**
+ * 为每个用户提供持久内存的AI服务示例
+ */
 public class ServiceWithPersistentMemoryForEachUserExample {
 
+    /**
+     * 助手
+     */
     interface Assistant {
 
-        String chat(@MemoryId int memoryId, @UserMessage String userMessage);
+        /**
+         * 聊天
+         * @param memoryId 聊天记忆ID
+         * @param userMessage 用户消息
+         */
+        String chat(
+                @MemoryId int memoryId,
+                @UserMessage String userMessage
+        );
     }
 
     public static void main(String[] args) {
 
+        // 持久化的聊天记忆存储
         PersistentChatMemoryStore store = new PersistentChatMemoryStore();
 
+        // 聊天记忆提供者
         ChatMemoryProvider chatMemoryProvider = memoryId -> MessageWindowChatMemory.builder()
                 .id(memoryId)
                 .maxMessages(10)
                 .chatMemoryStore(store)
                 .build();
 
+        // 聊天模型
         ChatModel model = OpenAiChatModel.builder()
                 .apiKey(ApiKeys.OPENAI_API_KEY)
                 .modelName(GPT_4_O_MINI)
                 .build();
 
+        // 构建助手
+        // AI服务
         Assistant assistant = AiServices.builder(Assistant.class)
                 .chatModel(model)
                 .chatMemoryProvider(chatMemoryProvider)
@@ -55,6 +74,9 @@ public class ServiceWithPersistentMemoryForEachUserExample {
         // System.out.println(assistant.chat(2, "What is my name?"));
     }
 
+    /**
+     * 您可以创建自己的 ChatMemoryStore 实现，并在任何您想要的时候存储聊天记录。
+     */
     // You can create your own implementation of ChatMemoryStore and store chat memory whenever you'd like
     static class PersistentChatMemoryStore implements ChatMemoryStore {
 
