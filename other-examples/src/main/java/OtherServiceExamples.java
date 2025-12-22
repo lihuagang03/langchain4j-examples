@@ -15,6 +15,9 @@ import java.util.function.Function;
 import static dev.langchain4j.model.openai.OpenAiChatModelName.GPT_4_O_MINI;
 import static java.util.Arrays.asList;
 
+/**
+ * 其他服务示例
+ */
 public class OtherServiceExamples {
 
     static ChatModel chatModel = OpenAiChatModel.builder()
@@ -28,6 +31,9 @@ public class OtherServiceExamples {
             POSITIVE, NEUTRAL, NEGATIVE;
         }
 
+        /**
+         * 情感分析器
+         */
         interface SentimentAnalyzer {
 
             @UserMessage("Analyze sentiment of {{it}}")
@@ -156,6 +162,11 @@ public class OtherServiceExamples {
 
         interface PersonExtractor {
 
+            /**
+             * 提取个人信息
+             * 从以下文本中提取一个人：{{it}}
+             * @param text 文本
+             */
             @UserMessage("Extract a person from the following text: {{it}}")
             Person extractPersonFrom(String text);
         }
@@ -191,14 +202,26 @@ public class OtherServiceExamples {
 
     static class POJO_With_Descriptions_Extracting_AI_Service_Example {
 
+        /**
+         * 食谱
+         */
         static class Recipe {
 
+            /**
+             * 短标题，最多三字
+             */
             @Description("short title, 3 words maximum")
             private String title;
 
+            /**
+             * 简短描述，最多两句话
+             */
             @Description("short description, 2 sentences maximum")
             private String description;
 
+            /**
+             * 每步应四字描述，步骤应押韵
+             */
             @Description("each step should be described in 4 words, steps should rhyme")
             private List<String> steps;
 
@@ -215,6 +238,9 @@ public class OtherServiceExamples {
             }
         }
 
+        /**
+         * 创建一道仅用 {{ingredients}} 就能制作的 {{dish}} 食谱
+         */
         @StructuredPrompt("Create a recipe of a {{dish}} that can be prepared using only {{ingredients}}")
         static class CreateRecipePrompt {
 
@@ -277,6 +303,11 @@ public class OtherServiceExamples {
 
         interface Chef {
 
+            /**
+             * 问答
+             * 你是一名专业厨师。你友好、礼貌并且言简意赅。
+             * @param question 问题
+             */
             @SystemMessage("You are a professional chef. You are friendly, polite and concise.")
             String answer(String question);
         }
@@ -297,10 +328,21 @@ public class OtherServiceExamples {
 
             @SystemMessage("You are a professional translator into {{language}}")
             @UserMessage("Translate the following text: {{text}}")
-            String translate(@V("text") String text, @V("language") String language);
+            String translate(
+                    @V("text") String text,
+                    @V("language") String language
+            );
 
+            /**
+             * 将用户的每条消息总结为{{n}}个要点。仅提供要点。
+             * @param userMessage 每条消息文本
+             * @param n N个要点
+             */
             @SystemMessage("Summarize every message from user in {{n}} bullet points. Provide only bullet points.")
-            List<String> summarize(@UserMessage String text, @V("n") int n);
+            List<String> summarize(
+                    @UserMessage String userMessage,
+                    @V("n") int n
+            );
         }
 
         public static void main(String[] args) {
@@ -330,9 +372,17 @@ public class OtherServiceExamples {
 
         interface TextUtils {
 
+            /**
+             * 翻译文本
+             * @param text 文本
+             * @param language 语言
+             */
             @SystemMessage(fromResource = "/translator-system-prompt-template.txt")
             @UserMessage(fromResource = "/translator-user-prompt-template.txt")
-            String translate(@V("text") String text, @V("language") String language);
+            String translate(
+                    @V("text") String text,
+                    @V("language") String language
+            );
         }
 
         public static void main(String[] args) {
@@ -349,7 +399,15 @@ public class OtherServiceExamples {
 
         interface Assistant {
 
-            String chat(@UserName String name, @UserMessage String message);
+            /**
+             * 聊天
+             * @param userName 用户名称
+             * @param userMessage 用户消息
+             */
+            String chat(
+                    @UserName String userName,
+                    @UserMessage String userMessage
+            );
         }
 
         public static void main(String[] args) {
@@ -365,7 +423,15 @@ public class OtherServiceExamples {
 
         interface Assistant {
 
-            String chat(@MemoryId String memoryId, @UserMessage String userMessage);
+            /**
+             * 聊天
+             * @param memoryId 聊天记忆ID
+             * @param userMessage 用户消息
+             */
+            String chat(
+                    @MemoryId String memoryId,
+                    @UserMessage String userMessage
+            );
         }
 
         public static void main(String[] args) {
